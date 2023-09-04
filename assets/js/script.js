@@ -10,7 +10,7 @@
 // difficoltà 3 ⇒ 49 caselle, con un numero compreso tra 1 e 49, divise in 7 caselle per 7 righe;
 
 let counter = 0;
-
+const alert = document.querySelector('.alert')
 function addPoints() {
     counter++;
     if (counter == 84) {
@@ -21,14 +21,14 @@ function addPoints() {
 function generateField(domElement, limit) {
     fieldElement.innerHTML = '';
     console.log(this);
-
+    alert.innerHTML = '';
     let bombs = [];
 
 
     while (bombs.length < 16) {
         let bomb = Math.floor(Math.random() * 100 + 1);
         if (!bombs.includes(bomb)) {
-            bombs.push(bomb)
+            bombs.push(bomb);
         }
 
     }
@@ -37,27 +37,29 @@ function generateField(domElement, limit) {
     if (fieldElement.classList.contains("filed")) {
         for (let i = 0; i < limit; i++) {
 
-            const cellElement = document.createElement('div')
+            const cellElement = document.createElement('div');
             cellElement.className = 'cell'
-            cellElement.append(i + 1)
-            domElement.append(cellElement)
-
+            cellElement.append(i + 1);
+            domElement.append(cellElement);
 
 
             console.log(cellElement);
             // aggiungo l'event listener alla cella che ho appena generato
-            cellElement.addEventListener('click', function () {
+            cellElement.addEventListener('click', function bomber(el) {
                 //console.log('ho cliccato il numero:', cellElement);
                 if (bombs.includes(i + 1)) {
-                    this.classList.toggle('bg-red')
-                    console.log('bomba');
-                    alert('Hai perso! ' + 'Hai totalizzato ' + counter + ' punti')
+                    this.classList.toggle('bg-red');
+                    //console.log('bomba');
+                    //alert('Hai perso! ' + 'Hai totalizzato ' + counter + ' punti')
+                    fieldElement.classList.remove('filed');
+                    alert.innerHTML = `Hai perso! Hai totalizzato ${counter} punti`;
                     fieldElement.innerHTML = '';
                     counter = 0;
                 } else {
-                    this.classList.toggle('bg-lightblue')
+                    this.classList.toggle('bg-lightblue');
                     console.log('Il numero selezionato è ' + this.innerHTML);
                     addPoints();
+                    el.target.removeEventListener('click', bomber);
 
                 }
             })
