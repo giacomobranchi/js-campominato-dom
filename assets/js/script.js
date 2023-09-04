@@ -9,23 +9,30 @@
 // difficoltà 2 ⇒ 81 caselle, con un numero compreso tra 1 e 81, divise in 9 caselle per 9 righe;
 // difficoltà 3 ⇒ 49 caselle, con un numero compreso tra 1 e 49, divise in 7 caselle per 7 righe;
 
+let counter = 0;
 
-let bombs = [];
-
-
-while (bombs.length < 16) {
-    let bomb = Math.floor(Math.random() * 100 + 1);
-    if (!bombs.includes(bomb)) {
-        bombs.push(bomb)
+function addPoints() {
+    counter++;
+    if (counter == 84) {
+        alert('Hai Vinto! ' + 'Hai totalizzato ' + counter + ' punti')
+        counter = 0;
     }
-
 }
-console.log(bombs);
-
 function generateField(domElement, limit) {
     fieldElement.innerHTML = '';
     console.log(this);
 
+    let bombs = [];
+
+
+    while (bombs.length < 16) {
+        let bomb = Math.floor(Math.random() * 100 + 1);
+        if (!bombs.includes(bomb)) {
+            bombs.push(bomb)
+        }
+
+    }
+    console.log(bombs);
     // genera la griglia
     if (fieldElement.classList.contains("filed")) {
         for (let i = 0; i < limit; i++) {
@@ -44,9 +51,14 @@ function generateField(domElement, limit) {
                 if (bombs.includes(i + 1)) {
                     this.classList.toggle('bg-red')
                     console.log('bomba');
+                    alert('Hai perso! ' + 'Hai totalizzato ' + counter + ' punti')
+                    fieldElement.innerHTML = '';
+                    counter = 0;
                 } else {
                     this.classList.toggle('bg-lightblue')
                     console.log('Il numero selezionato è ' + this.innerHTML);
+                    addPoints();
+
                 }
             })
 
@@ -61,7 +73,6 @@ startButton.addEventListener('click', function () {
     fieldElement.classList.toggle('filed');
     generateField(fieldElement, limit);
 })
-
 
 
 
