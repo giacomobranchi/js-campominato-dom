@@ -21,6 +21,10 @@ body {
     background-color: paleturquoise;
 }
 
+.bg-red {
+    background-color: red;
+}
+
 .filed {
     display: flex;
     flex-wrap: wrap;
